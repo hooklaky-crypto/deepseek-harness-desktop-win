@@ -38,3 +38,11 @@ apps/web/dist/
 worktrees/
 .agents/worktrees/
 .typert-*/
+
+desktop/runtime/
+desktop/staging/
+desktop/resources/node/
+desktop/resources/node-*.zip
+desktop/resources/node-*-extract/
+desktop/dist/
+desktop/node_modules/

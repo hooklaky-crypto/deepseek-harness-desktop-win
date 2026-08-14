@@ -1,0 +1,22 @@
+{
+  "name": "dsh-desktop",
+  "version": "0.1.0",
+  "description": "DeepSeek Harness Desktop - Windows desktop shell for dsh web",
+  "main": "main.js",
+  "author": "DeepSeek Harness Desktop contributors",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "prepare:runtime": "node scripts/prepare-runtime.mjs",
+    "prepare:icon": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/make-icon.ps1",
+    "prepare:node": "node scripts/prepare-node.mjs",
+    "stage": "npm run prepare:runtime && npm run prepare:icon && npm run prepare:node",
+    "start": "npm run prepare:runtime && electron .",
+    "dist": "npm run stage && electron-builder --win portable nsis",
+    "dist:portable": "npm run stage && electron-builder --win portable"
+  },
+  "devDependencies": {
+    "electron": "^43.4.0",
+    "electron-builder": "^26.15.3"
+  }
+}

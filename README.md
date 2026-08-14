@@ -34,6 +34,16 @@ pnpm run build
 pnpm dsh web
 ```
 
+### Windows desktop app
+
+This fork includes a Windows desktop shell under [`desktop/`](desktop/README.md). It bundles the same `dsh web` UI in an Electron window with a standalone Node runtime, and ships as both a portable exe and an NSIS installer:
+
+```sh
+cd desktop
+npm install
+npm run dist
+```
+
 ## Community and support
 
 - Feel free to submit feedback or bug reports through [GitHub Discussions](https://github.com/deepseek-ai/deepseek-harness/discussions).

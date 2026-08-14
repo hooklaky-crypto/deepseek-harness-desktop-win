@@ -1,0 +1,40 @@
+appId: com.deepseek.dsh-desktop
+productName: DeepSeek Harness Desktop
+copyright: Copyright (c) 2026 DeepSeek Harness Desktop contributors
+
+directories:
+  output: dist
+  buildResources: build
+
+files:
+  - main.js
+  - runtime/**/*
+  - "!runtime/src/**"
+  - "!runtime/package-lock.json"
+  - "!runtime/pnpm-lock.yaml"
+
+asar: false
+npmRebuild: false
+nodeGypRebuild: false
+
+extraResources:
+  - from: resources/node
+    to: node
+    filter:
+      - "**/*"
+
+win:
+  target:
+    - portable
+    - nsis
+  icon: build/icon.ico
+
+portable:
+  artifactName: DeepSeek-Harness-Desktop-${version}-portable.${ext}
+
+nsis:
+  artifactName: DeepSeek-Harness-Desktop-${version}-setup.${ext}
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  shortcutName: DeepSeek Harness Desktop
