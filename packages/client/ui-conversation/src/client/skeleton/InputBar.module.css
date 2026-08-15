@@ -474,3 +474,15 @@
   text-decoration: line-through;
   opacity: 0.7;
 }
+
+/* Codex-style composer overrides. */
+.card {
+  border-radius: 16px;
+  border-color: rgba(255, 255, 255, 0.1);
+  background: #1c1c1f;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.36);
+}
+
+.cardWorkspaceTrigger::after {
+  border-radius: 16px;
+}

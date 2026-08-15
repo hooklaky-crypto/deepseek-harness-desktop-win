@@ -259,3 +259,21 @@
   flex: 0 0 auto;
   color: var(--dsw-alias-label-tertiary);
 }
+
+/* Codex-style model selector overrides. */
+.trigger {
+  height: 30px;
+  padding: 0 10px 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  background: #1c1c1f;
+  color: #f5f5f5;
+}
+
+.trigger:hover:not(:disabled) {
+  background: #26262a;
+}
+
+.menu {
+  border-radius: 14px;
+}

@@ -218,6 +218,19 @@
   overflow: hidden;
 }
 
+/* Codex-style conversation overrides. */
+.root {
+  --dsh-chat-content-width: 860px;
+}
+
+.header {
+  padding: 14px 32px 0 24px;
+}
+
+.header::after {
+  background: rgba(255, 255, 255, 0.08);
+}
+
 .root[data-phase='active'] .header {
   flex: none;
 }

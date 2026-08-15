@@ -1,27 +1,36 @@
 import { spawn, spawnSync } from 'node:child_process'
 import { existsSync, readFileSync, rmSync } from 'node:fs'
-import { dirname, join } from 'node:path'
+import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const scriptDir = dirname(fileURLToPath(import.meta.url))
 const desktopRoot = join(scriptDir, '..')
-const exePath = join(desktopRoot, 'dist', 'win-unpacked', 'DeepSeek Harness Desktop.exe')
+const exeArg = process.argv[2]
+const exePath = exeArg === undefined
+  ? join(desktopRoot, 'dist', 'win-unpacked', 'DeepSeek Harness Desktop.exe')
+  : resolve(desktopRoot, exeArg)
 const appData = process.env.APPDATA
 const userData = join(appData, 'dsh-desktop')
 const logPath = join(userData, 'dsh-server.log')
+const timeoutSeconds = Number(process.env.SMOKE_TIMEOUT_SECONDS ?? 120)
 
 if (!existsSync(exePath)) throw new Error(`missing exe: ${exePath}`)
 rmSync(logPath, { force: true })
 
 const child = spawn(exePath, [], {
   cwd: desktopRoot,
-  stdio: 'ignore',
+  env: { ...process.env, ELECTRON_ENABLE_LOGGING: '1' },
+  stdio: ['ignore', 'pipe', 'pipe'],
   windowsHide: true,
 })
+let stdout = ''
+let stderr = ''
+child.stdout.on('data', (chunk) => { stdout += chunk })
+child.stderr.on('data', (chunk) => { stderr += chunk })
 
 let ready = false
 let url = ''
-for (let attempt = 0; attempt < 120; attempt += 1) {
+for (let attempt = 0; attempt < timeoutSeconds; attempt += 1) {
   await new Promise((resolve) => setTimeout(resolve, 1000))
   if (existsSync(logPath)) {
     const log = readFileSync(logPath, 'utf8')
@@ -50,6 +59,10 @@ for (let attempt = 0; attempt < 120; attempt += 1) {
 console.log(`READY=${ready}`)
 if (!ready && existsSync(logPath)) {
   console.log(`LOG=${readFileSync(logPath, 'utf8').slice(-2000).replace(/\r?\n/g, ' | ')}`)
+}
+if (!ready) {
+  console.log(`STDOUT=${stdout.slice(-2000).replace(/\r?\n/g, ' | ')}`)
+  console.log(`STDERR=${stderr.slice(-2000).replace(/\r?\n/g, ' | ')}`)
 }
 
 spawnSync('taskkill', ['/PID', String(child.pid), '/T', '/F'], { stdio: 'ignore' })

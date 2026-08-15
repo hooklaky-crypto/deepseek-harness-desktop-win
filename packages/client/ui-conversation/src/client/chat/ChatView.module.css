@@ -190,3 +190,12 @@
 .toBottom:hover {
   background: var(--dsw-alias-button-floating-hover);
 }
+
+/* Codex-style chat column overrides. */
+.column {
+  gap: 20px;
+}
+
+.scroll {
+  padding: 20px calc(var(--dsh-composer-side-clearance) + 20px);
+}

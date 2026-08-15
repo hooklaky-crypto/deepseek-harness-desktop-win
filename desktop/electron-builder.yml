@@ -1,5 +1,5 @@
 appId: com.deepseek.dsh-desktop
-productName: DeepSeek Harness Desktop
+productName: DeepSeekHarnessDesktop
 copyright: Copyright (c) 2026 DeepSeek Harness Desktop contributors
 
 directories:
@@ -13,7 +13,9 @@ files:
   - "!runtime/package-lock.json"
   - "!runtime/pnpm-lock.yaml"
 
-asar: false
+asar: true
+asarUnpack:
+  - runtime/**/*
 npmRebuild: false
 nodeGypRebuild: false
 

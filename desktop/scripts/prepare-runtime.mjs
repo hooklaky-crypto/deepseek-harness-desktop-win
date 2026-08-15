@@ -118,6 +118,34 @@ function renameWithRetry(from, to, attempts = 20) {
   }
 }
 
+function pruneWorkspacePackages(nodeModules) {
+  const scopeDir = join(nodeModules, '@deepseek-ai')
+  if (!existsSync(scopeDir)) return
+  for (const entry of readdirSync(scopeDir, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue
+    prunePackage(join(scopeDir, entry.name))
+  }
+}
+
+function prunePackage(packageDir) {
+  const manifestPath = join(packageDir, 'package.json')
+  if (!existsSync(manifestPath)) return
+  const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'))
+  if (!Array.isArray(manifest.files)) return
+
+  const keep = new Set(['package.json', 'node_modules'])
+  for (const file of manifest.files) {
+    if (typeof file !== 'string' || file.startsWith('!')) continue
+    keep.add(file.split('/')[0])
+  }
+
+  for (const entry of readdirSync(packageDir, { withFileTypes: true })) {
+    if (keep.has(entry.name)) continue
+    if (entry.name.startsWith('README') || entry.name.startsWith('LICENSE')) continue
+    rmSync(join(packageDir, entry.name), { recursive: true, force: true })
+  }
+}
+
 function npmCommand() {
   return process.platform === 'win32' ? 'npm.cmd' : 'npm'
 }
@@ -199,6 +227,8 @@ try {
   const nodeModules = join(runtimeRoot, 'node_modules')
   console.log('dereferencing node_modules links...')
   dereferenceLinks(nodeModules)
+  console.log('pruning workspace package files...')
+  pruneWorkspacePackages(nodeModules)
 
   for (const rel of ['apps', 'packages', 'vendor', 'native', 'package-lock.json', 'node_modules/.package-lock.json']) {
     const target = join(runtimeRoot, rel)

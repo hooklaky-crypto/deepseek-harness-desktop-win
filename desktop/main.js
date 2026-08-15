@@ -13,7 +13,11 @@ let serverOutput = ''
 let quitting = false
 
 function runtimeDir() {
-  return path.join(app.getAppPath(), 'runtime')
+  const appPath = app.getAppPath()
+  if (app.isPackaged && appPath.endsWith('.asar')) {
+    return path.join(path.dirname(appPath), 'app.asar.unpacked', 'runtime')
+  }
+  return path.join(appPath, 'runtime')
 }
 
 function dshBin() {
@@ -52,16 +56,12 @@ function createWindow() {
     minHeight: 600,
     title: 'DeepSeek Harness Desktop',
     autoHideMenuBar: false,
-    show: false,
+    show: true,
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
       sandbox: true,
     },
-  })
-
-  mainWindow.once('ready-to-show', () => {
-    mainWindow.show()
   })
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
@@ -221,7 +221,12 @@ async function boot() {
   }
 
   createWindow()
-  await mainWindow.loadURL(serverUrl)
+  try {
+    await mainWindow.loadURL(serverUrl)
+  } catch (error) {
+    appendLog(`loadURL failed: ${String(error)}\n`)
+    dialog.showErrorBox('加载失败', String(error))
+  }
 }
 
 const gotLock = app.requestSingleInstanceLock()

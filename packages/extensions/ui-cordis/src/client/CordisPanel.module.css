@@ -4,9 +4,10 @@
   position: relative;
   flex: none;
   display: flex;
+  flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 49px;
+  height: auto;
   margin: 8px 0 0;
 }
 
@@ -78,15 +79,15 @@
 }
 
 .panel {
-  position: fixed;
-  left: 12px;
-  bottom: 128px;
-  z-index: 30;
+  position: static;
+  z-index: auto;
   display: flex;
   flex-direction: column;
-  width: 420px;
-  max-width: calc(100vw - 24px);
-  max-height: 60vh;
+  width: 100%;
+  max-width: 100%;
+  max-height: 42vh;
+  margin-bottom: 8px;
+  box-sizing: border-box;
   overflow: hidden;
   border: 1px solid var(--dsw-alias-border-l1);
   border-radius: 12px;
@@ -95,6 +96,10 @@
   /* Only `.body` scrolls; the header remains fixed above it. */
   --dsh-scrollbar-thumb: var(--dsw-alias-scrollbar-bg-l2);
   --dsh-scrollbar-thumb-hover: var(--dsw-alias-scrollbar-hover-l2);
+}
+
+.rail .panel {
+  display: none;
 }
 
 .header {

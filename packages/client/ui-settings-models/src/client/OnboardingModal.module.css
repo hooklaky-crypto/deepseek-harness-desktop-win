@@ -30,3 +30,18 @@
     padding: 24px;
   }
 }
+
+/* Codex-style authorization dialog overrides. */
+.dialog {
+  width: min(520px, 100%);
+}
+
+.content {
+  padding: 32px;
+}
+
+.title {
+  font-size: 22px;
+  line-height: 30px;
+  font-weight: 600;
+}

@@ -114,7 +114,7 @@ export function CordisPanel({
   const loaded = useLoaded(snapshot => snapshot)
   const renderFailures = useRenderFailures(snapshot => snapshot)
   const current = useSessions(state => state.current)
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(true)
   const [selected, setSelected] = useState<Record<string, CordisDynamicPackageId>>({})
   const [pending, setPending] = useState<ReadonlySet<CordisDynamicPluginId>>(new Set())
   const [actionErrors, setActionErrors] = useState<ReadonlyMap<CordisDynamicPluginId, string>>(new Map())

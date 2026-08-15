@@ -18,7 +18,7 @@
 import { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
 import {
-  BrandWordmark, FishLogo,
+  BrandWordmark, FishLogo, IconCordisPluginOutline14,
   IconNewChatOutline16, IconPanelLeftOutline16,
   Tooltip,
 } from '@deepseek-ai/dsh-client-ui-primitives'
@@ -181,6 +181,18 @@ export function SidebarRoot({
       {/* Footer actions stack above Settings in both sidebar widths. */}
       <div className={css.footArea}>
         <div className={css.footerActions}>
+          <button
+            type="button"
+            className={css.pluginButton}
+            onClick={() => {
+              window.dispatchEvent(new CustomEvent('dsh:open-settings', {
+                detail: { section: 'plugins' },
+              }))
+            }}
+          >
+            <IconCordisPluginOutline14 size={wide ? 14 : 18} />
+            {wide && <span className={css.pluginLabel}>插件</span>}
+          </button>
           {renderSlot('sidebar.footer.action', { wide })}
         </div>
         <div className={css.settingsArea}>

@@ -221,6 +221,35 @@
   max-width: 0;
 }
 
+/* Codex-style sidebar overrides. */
+.root {
+  padding: 8px 10px;
+}
+
+.logoRow {
+  height: 64px;
+  margin-bottom: 4px;
+}
+
+.brand {
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.newSession {
+  height: 40px;
+  margin-left: 0;
+  margin-right: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  background: #1c1c1f;
+  font-weight: 600;
+}
+
+.newSession:hover {
+  background: #26262a;
+}
+
 /* Region seat: always mounted so the foot never moves. Its trailing margin
    cancels the wide shell inset so the nested scrollbar can sit at the sidebar
    edge; the browser restores that inset inside its own rows. */
@@ -258,6 +287,43 @@
 
 .footerActions {
   display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pluginButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 38px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--dsw-alias-label-primary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.pluginButton:hover {
+  background: var(--dsw-alias-interactive-bg-hover-solid);
+}
+
+.pluginLabel {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.collapsed .pluginButton {
+  width: 36px;
+  height: 36px;
+  justify-content: center;
+  padding: 0;
 }
 
 .collapsed .footArea {
