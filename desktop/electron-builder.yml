@@ -16,6 +16,7 @@ files:
 asar: true
 asarUnpack:
   - runtime/**/*
+compression: normal
 npmRebuild: false
 nodeGypRebuild: false
 
